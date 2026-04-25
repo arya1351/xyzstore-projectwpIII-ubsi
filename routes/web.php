@@ -92,20 +92,30 @@ Route::middleware('is.customer')->group(function () {
     // Route untuk menambahkan produk ke keranjang
     Route::post('add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
     Route::get('cart', [OrderController::class, 'viewCart'])->name('order.cart');
+    Route::post('cart/update/{id}', [OrderController::class, 'updateCart'])->name('order.updateCart');
+    Route::post('remove/{id}', [OrderController::class, 'removeFromCart'])->name('order.remove');
+    Route::post('select-shipping', [OrderController::class, 'selectShipping'])->name('order.selectShipping');
+    Route::get('/ongkir', [OrderController::class, 'getProvinces']);
+    Route::get('/cities/{provinceId}', [OrderController::class, 'getCities']);
+    Route::get('/districts/{cityId}', [OrderController::class, 'getDistricts']);
+    Route::post('/cost', [OrderController::class, 'checkOngkir']);
+    Route::post('/choose-shipping', [OrderController::class, 'chooseShipping'])->name('order.chooseShipping');
 });
-
 
 Route::get('/list-ongkir', function () {
     $response = Http::withHeaders([
-        'key' => 'M16Tqpov4298f3546a7fa5b6hZ1ude4c'
+        'key' => 'M16Tqpov4298f3546a7fa5b6hZ1ude4c',
     ])->get('https://rajaongkir.komerce.id/api/v1/destination/province');
 
-  dd($response->json());
+    dd($response->json());
 });
 
-Route::get('/cek-ongkir', function () {
-return view('ongkir');
-});
-Route::get('/provinces', [RajaOngkirController::class, 'getProvinces']);
-Route::get('/cities', [RajaOngkirController::class, 'getCities']);
-Route::post('/cost', [RajaOngkirController::class, 'getCost']);
+// Route::get('/cek-ongkir', function () {
+// return view('ongkir');
+// });
+Route::get('/cek-ongkir', [RajaOngkirController::class, 'getProvinces']);
+
+Route::get('/cities/{provinceId}', [RajaOngkirController::class, 'getCities']);
+Route::get('/districts/{cityId}', [RajaOngkirController::class, 'getDistricts']);
+Route::post('/cost', [RajaOngkirController::class, 'checkOngkir']);
+Route::post('updateongkir', [OrderController::class, 'updateongkir'])->name('order.updateongkir');

@@ -61,32 +61,89 @@
         </td>
         <td class="price text-center"><strong>Rp. {{ number_format($item->harga, 0, ',', '.') }}</strong></td>
         <td class="qty text-center">
-         <form action="#" method="post">
+         <form action="{{ route('order.updateCart', $item->id) }}" method="post">
           @csrf
           <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" style="width: 60px;">
-          <button type="submit" class="btn btn-sm btnwarning">Update</button>
+          <button type="submit" class="btn btn-sm btn-warning">Update</button>
          </form>
         </td>
         <td class="total text-center"><strong class="primary-color">Rp.
           {{ number_format($item->harga * $item->quantity, 0, ',', '.') }}</strong></td>
         <td class="text-right">
-         <form action="#" method="post">
+         <form action="{{ route('order.remove', $item->produk->id) }}" method="post">
           @csrf
-          <button class="main-btn icon-btn"><i class="fa faclose"></i></button>
+          <button class="main-btn icon-btn"><i class="fa fa-close"></i></button>
          </form>
         </td>
        </tr>
       @endforeach
      </tbody>
     </table>
-    <form action="#" method="post">
-     @csrf
-     <input type="hidden" name="total_price" value="{{ $totalHarga }}">
-     <input type="hidden" name="total_weight" value="{{ $totalBerat }}">
-     <div class="pull-right">
-      <button class="primary-btn">Pilih Pengiriman</button>
-     </div>
-    </form>
+    <tr>
+     {{-- <td colspan="4" class="text-right"><strong>Ongkos Kirim</strong></td>
+     <td>
+      Rp {{ number_format($order->biaya_ongkir ?? 0, 0, ',', '.') }} <br>
+      <small>{{ $order->kurir }} - {{ $order->layanan_ongkir }} ({{ $order->estimasi_ongkir }})</small>
+     </td>
+    </tr>
+
+    <tr>
+     <td colspan="4" class="text-right"><strong>Total Bayar</strong></td>
+     <td>
+      <strong class="primary-color">
+       Rp {{ number_format($order->total_harga, 0, ',', '.') }}
+      </strong>
+     </td> --}}
+
+
+     <td>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        
+        {{-- KIRI: INFO ONGKIR --}}
+        <div>Biaya Ongkir 
+            Rp <B>{{ number_format($order->biaya_ongkir ?? 0, 0, ',', '.') }}</B> <br>
+            <small>
+                {{ $order->kurir }} - {{ $order->layanan_ongkir }} ({{ $order->estimasi_ongkir }})
+            </small>
+            <td colspan="4" class="text-right"><strong>Total Bayar</strong></td>
+      <strong class="primary-color">
+       Rp {{ number_format($order->total_harga, 0, ',', '.') }}
+      </strong>
+        </div>
+
+        {{-- KANAN: TOMBOL --}}
+        @if ($order->biaya_ongkir)
+        <div>
+            <form action="{{ route('order.selectShipping') }}" method="post">
+                @csrf
+                <button class="btn btn-warning btn-sm">Ganti Pengiriman</button>
+            </form>
+        </div>
+        @endif
+
+    </div>
+</td>
+    </tr>
+
+   <div class="pull-right">
+
+    @if (!$order->biaya_ongkir)
+        {{-- BELUM PILIH ONGKIR --}}
+        <form action="{{ route('order.selectShipping') }}" method="post">
+            @csrf
+            <input type="hidden" name="total_price" value="{{ $totalHarga }}">
+            <input type="hidden" name="total_weight" value="{{ $totalBerat }}">
+            <button class="primary-btn">Pilih Pengiriman</button>
+        </form>
+    @else
+        {{-- SUDAH PILIH ONGKIR --}}
+        <form action="" method="post">
+            @csrf
+            <button class="primary-btn">Bayar Sekarang</button>
+        </form>
+    @endif
+
+</div>
    @else
     <p>Keranjang belanja kosong.</p>
    @endif

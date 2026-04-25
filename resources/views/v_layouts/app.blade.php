@@ -57,7 +57,7 @@
    <div class="pull-left">
     <!-- Logo -->
     <div class="header-logo">
-     <a class="logo" href="#">
+     <a class="logo" href="/">
       <img src="{{ asset('./image/logo.png') }}" alt="">
      </a>
     </div>
