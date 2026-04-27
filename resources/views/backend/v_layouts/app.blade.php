@@ -203,6 +203,10 @@ navigation"><i class="ti-more"></i></a>
                                             class="hide-menu"> Order </span></a></li> --}}
        </ul>
       </li>
+            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+        href="{{ route('backend.pesanan.proses') }}" aria-expanded="false"><i
+         class="mdi mdiaccount-multiple"></i><span class="hide-menu">Order</span></a>
+      </li>
      </ul>
     </nav>
     <!-- End Sidebar navigation -->

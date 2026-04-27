@@ -137,7 +137,7 @@
         </form>
     @else
         {{-- SUDAH PILIH ONGKIR --}}
-        <form action="" method="post">
+        <form action="{{ route('checkout') }}" method="post">
             @csrf
             <button class="primary-btn">Bayar Sekarang</button>
         </form>

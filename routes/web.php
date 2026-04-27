@@ -69,6 +69,14 @@ Route::post('backend/laporan/cetakproduk', [ProdukController::class, 'cetakProdu
     ->name('backend.laporan.cetakproduk')
     ->middleware('auth');
 
+Route::get('backend/pesanan', [OrderController::class, 'statusProses'])
+    ->name('backend.pesanan.proses')
+    ->middleware('auth');
+    
+    Route::get('backend/pesanan/detail/{id}', [OrderController::class, 'statusDetail'])
+    ->name('backend.pesanan.detail')
+    ->middleware('auth');
+
 Route::get('/produk/detail/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
 
 Route::get('/produk/kategori/{id}', [ProdukController::class, 'produkKategori'])->name('produk.kategori');
@@ -100,6 +108,8 @@ Route::middleware('is.customer')->group(function () {
     Route::get('/districts/{cityId}', [OrderController::class, 'getDistricts']);
     Route::post('/cost', [OrderController::class, 'checkOngkir']);
     Route::post('/choose-shipping', [OrderController::class, 'chooseShipping'])->name('order.chooseShipping');
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/history', [OrderController::class, 'orderHistory'])->name('order.history');
 });
 
 Route::get('/list-ongkir', function () {
