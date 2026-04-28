@@ -340,7 +340,7 @@ atau gif.',
     public function produkAll()
     {
         $kategori = Kategori::orderBy('nama_kategori', 'desc')->get();
-        $produk = Produk::where('status', 1)->orderBy('updated_at', 'desc')->paginate(6);
+        $produk = Produk::where('status', 1)->orderBy('updated_at', 'desc')->get();
         return view('v_produk.index', [
             'judul' => 'Semua Produk',
             'kategori' => $kategori,

@@ -15,6 +15,7 @@
  <link rel="stylesheet" type="text/css" href="{{ asset('backend/extra-libs/multicheck/multicheck.css') }}">
  <link href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
  <link href="{{ asset('backend/dist/css/style.min.css') }}" rel="stylesheet">
+
  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
  <!--[if lt IE 9]>
@@ -177,11 +178,11 @@ navigation"><i class="ti-more"></i></a>
       </li>
       <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
         href="{{ route('backend.customer.index') }}" aria-expanded="false"><i
-         class="mdi mdiaccount-multiple"></i><span class="hide-menu">Customer</span></a>
+         class="mdi mdi-account-multiple"></i><span class="hide-menu">Customer</span></a>
       </li>
 
       <li class="sidebar-item"> <a class="sidebar-link has-arrow waves effect waves-dark" href="javascript:void(0)"
-        aria-expanded="false"><i class="mdi mdi shopping"></i><span class="hide-menu">Data Produk </span></a>
+        aria-expanded="false"><i class="mdi mdi-shopping"></i><span class="hide-menu">Data Produk </span></a>
        <ul aria-expanded="false" class="first-level collapse">
         <li class="sidebar-item"><a href="{{ route('backend.kategori.index') }}" class="sidebar-link"><i
            class="mdi mdi-chevron-right"></i><span class="hide-menu"> Kategori </span></a>
@@ -205,7 +206,7 @@ navigation"><i class="ti-more"></i></a>
       </li>
             <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
         href="{{ route('backend.pesanan.proses') }}" aria-expanded="false"><i
-         class="mdi mdiaccount-multiple"></i><span class="hide-menu">Order</span></a>
+         class="mdi mdi-table"></i><span class="hide-menu">Order</span></a>
       </li>
      </ul>
     </nav>
@@ -302,6 +303,14 @@ navigation"><i class="ti-more"></i></a>
  <script src="{{ asset('backend/extra-libs/multicheck/datatable-checkbox-init.js') }}"></script>
  <script src="{{ asset('backend/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
  <script src="{{ asset('backend/extra-libs/DataTables/datatables.min.js') }}"></script>
+  <script src="{{ asset('backend/dist/js/pages/chart/chart-page-init.js') }}"></script>
+  <script src="{{ asset('backend/libs/flot/jquery.flot.pie.js') }}"></script>
+  <script src="{{ asset('backend/libs/flot/jquery.flot.js') }}"></script>
+    <script src="{{ asset('backend/libs/flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ asset('backend/libs/flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ asset('backend/libs/flot/jquery.flot.crosshair.js') }}"></script>
+    <script src="{{ asset('backend/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
+
  <script>
   /****************************************
    * Basic Table *

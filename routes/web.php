@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RajaOngkirController;
 use App\Http\Controllers\UserController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -72,10 +73,12 @@ Route::post('backend/laporan/cetakproduk', [ProdukController::class, 'cetakProdu
 Route::get('backend/pesanan', [OrderController::class, 'statusProses'])
     ->name('backend.pesanan.proses')
     ->middleware('auth');
-    
-    Route::get('backend/pesanan/detail/{id}', [OrderController::class, 'statusDetail'])
+
+Route::get('backend/pesanan/detail/{id}', [OrderController::class, 'statusDetail'])
     ->name('backend.pesanan.detail')
     ->middleware('auth');
+
+Route::put('/backend/pesanan/detail/{id}', [OrderController::class, 'statusUpdate', 'as'=> 'backend'])->name('pesanan.update')->middleware('auth');
 
 Route::get('/produk/detail/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
 
@@ -109,6 +112,7 @@ Route::middleware('is.customer')->group(function () {
     Route::post('/cost', [OrderController::class, 'checkOngkir']);
     Route::post('/choose-shipping', [OrderController::class, 'chooseShipping'])->name('order.chooseShipping');
     Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/payment/{orderId}', [OrderController::class, 'selectpayment'])->name('selectpayment');
     Route::get('/history', [OrderController::class, 'orderHistory'])->name('order.history');
 });
 

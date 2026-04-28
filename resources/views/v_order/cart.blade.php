@@ -56,7 +56,7 @@
           <li><span>Berat: {{ $item->produk->berat }} Gram</span></li>
          </ul>
          <ul>
-          <li><span>Stok: {{ $item->produk->stok }} Gram</span></li>
+          <li><span>Stok: <b>{{ $item->produk->stok }}</b></span></li>
          </ul>
         </td>
         <td class="price text-center"><strong>Rp. {{ number_format($item->harga, 0, ',', '.') }}</strong></td>
@@ -137,7 +137,7 @@
         </form>
     @else
         {{-- SUDAH PILIH ONGKIR --}}
-        <form action="{{ route('checkout') }}" method="post">
+        <form action="{{ route('selectpayment',$order->id) }}" method="post">
             @csrf
             <button class="primary-btn">Bayar Sekarang</button>
         </form>

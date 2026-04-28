@@ -9,6 +9,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Midtrans\Snap;
 use Midtrans\Config;
 
@@ -298,7 +299,8 @@ dari keranjang',
         // $order = Order::whereIn('status', ['Paid', 'Kirim'])
         //     ->orderBy('id', 'desc')
         //     ->get();
-                $order = Order::orderBy('id', 'asc')->get();
+
+        $order = Order::with('customer.user')->orderBy('id','asc')->get();
 
         return view('backend.v_pesanan.proses', [
             'judul' => 'Pesanan',
@@ -346,58 +348,65 @@ dari keranjang',
         }
         $validatedData = $request->validate($rules);
         Order::where('id', $id)->update($validatedData);
-        return redirect()->route('pesanan.proses')->with(
-            'success',
-            'Data berhasil
-diperbaharui',
-        );
+        return redirect()->route('backend.pesanan.proses')->with('success','Data berhasil diperbaharui',);
     }
 
-    public function selectPayment()
-    {
-        $customer = Auth::user();
-        $order = Order::where('customer_id', $customer->customer->id)->where('status', 'pending')->first();
-        if ($order) {
-            $order->load('orderItems.produk');
-        }
+   public function selectPayment(string $orderId)
+{
+    $customer = Customer::where('user_id', Auth::id())->first();
 
-        // Pastikan total_price sudah dihitung dengan benar
-        $totalHarga = 0;
-        foreach ($order->orderItems as $item) {
-            $totalHarga += $item->harga * $item->quantity;
-        }
-
-        // Tambahkan biaya ongkir ke total harga
-        $grossAmount = $totalHarga + $order->biaya_ongkir;
-
-        // Midtrans configuration
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = false;
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        // Generate unique order_id
-        $orderId = $order->id . '-' . time();
-
-        $params = [
-            'transaction_details' => [
-                'order_id' => $orderId,
-                'gross_amount' => (int) $grossAmount, // Pastikan gross_amount adalah integer
-            ],
-            'customer_details' => [
-                'first_name' => $customer->nama,
-                'email' => $customer->email,
-                'phone' => $customer->hp,
-            ],
-        ];
-
-        $snapToken = Snap::getSnapToken($params);
-        return view('v_order.selectpayment', [
-            'order' => $order,
-            'snapToken' => $snapToken,
-        ]);
+    if (!$customer) {
+        return back()->with('error', 'Customer tidak ditemukan');
     }
 
+    $order = Order::where('customer_id', $customer->id)
+        ->where('id', $orderId)
+        ->where('status', 'pending')
+        ->first();
+
+    if (!$order) {
+        return back()->with('error', 'Order tidak ditemukan');
+    }
+
+    $order->load('orderItems.produk');
+
+    // Hitung total harga
+    $totalHarga = 0;
+    foreach ($order->orderItems as $item) {
+        $totalHarga += $item->harga * $item->quantity;
+    }
+
+    // Tambah ongkir (antisipasi null)
+    $grossAmount = $totalHarga + ($order->biaya_ongkir ?? 0);
+
+    // Midtrans config
+    \Midtrans\Config::$serverKey = config('midtrans.server_key');
+    \Midtrans\Config::$isProduction = false;
+    \Midtrans\Config::$isSanitized = true;
+    \Midtrans\Config::$is3ds = true;
+
+    // order_id unik (JANGAN overwrite $orderId variable asli)
+    $midtransOrderId = $order->id . '-' . time();
+
+    $params = [
+        'transaction_details' => [
+            'order_id' => $midtransOrderId,
+            'gross_amount' => (int) $grossAmount,
+        ],
+        'customer_details' => [
+            'first_name' => $customer->user->name ?? 'Customer',
+            'email' => $customer->user->email ?? 'test@mail.com',
+            'phone' => $customer->hp ?? '-',
+        ],
+    ];
+
+    $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+    return view('v_order.selectpayment', [
+        'order' => $order,
+        'snapToken' => $snapToken,
+    ]);
+}
     public function callback(Request $request)
     {
         dd($request->all());
@@ -405,10 +414,15 @@ diperbaharui',
         $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
         if ($hashed == $request->signature_key) {
             $order = Order::find($request->order_id);
-            if ($order) {
-                $order->update(['status' => 'Paid']);
-            }
-        }
+            $order->update(attributes: ['status' => 'paid']);
+                $produk = $order->produk;
+                if ($produk && $produk->stok >= $order->qty) {
+                    $produk->decrement('stok', $order->qty); // Kurangi stok sesuai quantity
+                } else {
+                    // Jika stok tidak mencukupi, log error atau tangani kasus ini
+                    Log::error("Stok tidak mencukupi untuk produk {$produk->id}");
+                }
+    }
     }
 
     public function complete()
@@ -476,8 +490,7 @@ dengan Tanggal Awal.',
             [
                 'tanggal_awal.required' => 'Tanggal Awal harus diisi.',
                 'tanggal_akhir.required' => 'Tanggal Akhir harus diisi.',
-                'tanggal_akhir.after_or_equal' => 'Tanggal Akhir harus lebih besar atau sama
-dengan Tanggal Awal.',
+                'tanggal_akhir.after_or_equal' => 'Tanggal Akhir harus lebih besar atau sama dengan Tanggal Awal.',
             ],
         );
 

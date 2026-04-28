@@ -14,7 +14,7 @@
         <th>Tanggal</th>
         <th>Total</th>
         <th>Status</th>
-        <th>Pelanggal</th>
+        <th>Pelanggan</th>
         <th>Aksi</th>
        </tr>
       </thead>
@@ -38,7 +38,7 @@ white;"></i>
            </span>
           @endif
          </td>
-         <td> {{ $row->customer->email }} </td>
+         <td> {{ $row->customer->user->nama }} </td>
          <td>
           <a href="{{ route('backend.pesanan.detail', $row->id) }}" title="detail Order">
            <button type="button" class="badge badge-primary"><i class="far fa-eye"></i> Detail</button>

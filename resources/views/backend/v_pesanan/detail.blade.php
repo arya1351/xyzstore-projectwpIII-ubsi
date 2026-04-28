@@ -11,8 +11,7 @@
      <h2>Detail Pesanan #{{ $order->id }}</h2>
      <strong>Tanggal:</strong> {{ $order->created_at->format('d M Y H:i') }}
     </div>
-    {{-- <form action="{{ route('pesanan.update', $order->id) }}" method="post"> --}}
-    <form action="" method="post">
+    <form action="{{ route('pesanan.update', $order->id) }}" method="post">
      @method('put')
      @csrf
      <hr>
