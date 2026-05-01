@@ -406,25 +406,46 @@ dari keranjang',
         'order' => $order,
         'snapToken' => $snapToken,
     ]);
-}
-    public function callback(Request $request)
-    {
-        dd($request->all());
-        $serverKey = config('midtrans.server_key');
-        $hashed = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
-        if ($hashed == $request->signature_key) {
-            $order = Order::find($request->order_id);
-            $order->update(attributes: ['status' => 'paid']);
-                $produk = $order->produk;
-                if ($produk && $produk->stok >= $order->qty) {
-                    $produk->decrement('stok', $order->qty); // Kurangi stok sesuai quantity
-                } else {
-                    // Jika stok tidak mencukupi, log error atau tangani kasus ini
-                    Log::error("Stok tidak mencukupi untuk produk {$produk->id}");
-                }
-    }
+}public function callback(Request $request)
+{
+    $serverKey = config('midtrans.server_key');
+
+    $hashed = hash(
+        'sha512',
+        $request->order_id .
+        $request->status_code .
+        $request->gross_amount .
+        $serverKey
+    );
+
+    if ($hashed == $request->signature_key) {
+
+        $order = Order::find($request->order_id);
+
+        if ($order) {
+
+            $order->update([
+                'status' => 'paid'
+            ]);
+
+            $produk = $order->produk;
+
+            if ($produk && $produk->stok >= $order->qty) {
+
+                $produk->decrement('stok', $order->qty);
+
+            } else {
+
+                Log::error("Stok tidak mencukupi untuk produk {$produk->id}");
+
+            }
+        }
     }
 
+    return response()->json([
+        'message' => 'Callback processed'
+    ]);
+}
     public function complete()
     {
         // Logika untuk halaman setelah pembayaran berhasil

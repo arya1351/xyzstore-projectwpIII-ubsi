@@ -41,19 +41,19 @@ class DatabaseSeeder extends Seeder
     
     #data kategori 
     Kategori::create([ 
-    'nama_kategori' => 'Brownies', 
+    'nama_kategori' => 'Tshirt', 
     ]); 
     Kategori::create([ 
-    'nama_kategori' => 'Combro', 
+    'nama_kategori' => 'Hoodie', 
     ]); 
     Kategori::create([ 
-    'nama_kategori' => 'Dawet', 
+    'nama_kategori' => 'Zipper', 
     ]); 
     Kategori::create([ 
-    'nama_kategori' => 'Mochi', 
+    'nama_kategori' => 'Shoes', 
     ]); 
     Kategori::create([ 
-    'nama_kategori' => 'Wingko', 
+    'nama_kategori' => 'Accesories', 
     ]);
     }
 }
