@@ -7,7 +7,7 @@
   <div class="row">
    @foreach ($produk as $row)
     <!-- Product Single -->
-    <div class="col-md-4 col-sm-6 col-xs-6">
+    <div class="col-md-4 col-sm-6 col-xs-6" style="box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.05);">
      <div class="product product-single">
       <div class="product-thumb">
        <div class="product-label">

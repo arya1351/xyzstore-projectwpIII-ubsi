@@ -77,53 +77,32 @@
         </td>
        </tr>
       @endforeach
+
      </tbody>
+
+     <tfoot>
+      <tr>
+       <th class="empty" colspan="3"></th>
+       <th>SUBTOTAL</th>
+       <th colspan="2" class="sub-total">Rp. {{ number_format($totalHarga, 0, ',', '.') }}</th>
+      </tr>
+      <tr>
+       <th class="empty" colspan="3"></th>
+       <th>Ongkos Kirim</th>
+       <td colspan="2">
+        Rp. {{ number_format($order->biaya_ongkir, 0, ',', '.') }} <br>
+        {{ $order->kurir . '.' . $order->layanan_ongkir . ' *estimasi ' . $order->estimasi_ongkir . ' Hari' }}
+       </td>
+      </tr>
+      <tr>
+       <th class="empty" colspan="3"></th>
+       <th>TOTAL BAYAR</th>
+       <th colspan="2" class="total">Rp. {{ number_format($totalHarga + $order->biaya_ongkir, 0, ',', '.') }}</th>
+      </tr>
+
+     </tfoot>
     </table>
-    <tr>
-     {{-- <td colspan="4" class="text-right"><strong>Ongkos Kirim</strong></td>
-     <td>
-      Rp {{ number_format($order->biaya_ongkir ?? 0, 0, ',', '.') }} <br>
-      <small>{{ $order->kurir }} - {{ $order->layanan_ongkir }} ({{ $order->estimasi_ongkir }})</small>
-     </td>
-    </tr>
 
-    <tr>
-     <td colspan="4" class="text-right"><strong>Total Bayar</strong></td>
-     <td>
-      <strong class="primary-color">
-       Rp {{ number_format($order->total_harga, 0, ',', '.') }}
-      </strong>
-     </td> --}}
-
-
-     <td>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        
-        {{-- KIRI: INFO ONGKIR --}}
-        <div>Biaya Ongkir 
-            Rp <B>{{ number_format($order->biaya_ongkir ?? 0, 0, ',', '.') }}</B> <br>
-            <small>
-                {{ $order->kurir }} - {{ $order->layanan_ongkir }} ({{ $order->estimasi_ongkir }})
-            </small>
-            <td colspan="4" class="text-right"><strong>Total Bayar</strong></td>
-      <strong class="primary-color">
-       Rp {{ number_format($order->total_harga, 0, ',', '.') }}
-      </strong>
-        </div>
-
-        {{-- KANAN: TOMBOL --}}
-        @if ($order->biaya_ongkir)
-        <div>
-            <form action="{{ route('order.selectShipping') }}" method="post">
-                @csrf
-                <button class="btn btn-warning btn-sm">Ganti Pengiriman</button>
-            </form>
-        </div>
-        @endif
-
-    </div>
-</td>
-    </tr>
 
    <div class="pull-right">
 
@@ -137,11 +116,21 @@
         </form>
     @else
         {{-- SUDAH PILIH ONGKIR --}}
+            @if ($order->biaya_ongkir)
+            <form action="{{ route('order.selectShipping') }}" method="post">
+                @csrf
+                <button class="btn btn-warning" style="margin-bottom: 5%; padding: 6% 6%;"><b>GANTI PENGIRIMAN</b></button>
+            </form>
+
+        @endif
         <form action="{{ route('selectpayment',$order->id) }}" method="post">
             @csrf
             <button class="primary-btn">Bayar Sekarang</button>
         </form>
     @endif
+
+</div>
+    <div class="pull-right" style="margin-right: 5%">
 
 </div>
    @else

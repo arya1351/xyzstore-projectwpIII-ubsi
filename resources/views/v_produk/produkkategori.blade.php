@@ -3,13 +3,14 @@
  <!-- template -->
  <!-- STORE -->
  <div id="store">
+     @if ($produk->count() > 0)
   <!-- row -->
   <div class="row">
    @foreach ($produk as $row)
     <!-- Product Single -->
-    <div class="col-md-4 col-sm-6 col-xs-6">
+    <div class="col-md-4 col-sm-6 col-xs-6" style="box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.05);">
      <div class="product product-single">
-      <div class="product-thumb"></div>
+      <div class="product-thumb">
       <div class="product-label">
        <span>Kategori</span>
        <span class="sale">{{ $row->kategori->nama_kategori }}</span>
@@ -24,9 +25,8 @@
         class="product-old-price">{{ $row->kategori->nama_kategori }}</span></h3>
       <h2 class="product-name"><a href="#">{{ $row->nama_produk }}</a></h2>
       <div class="product-btns">
-       <a href="{{ route('produk.detail', $row->id) }}" title="Detail
-Produk">
-        <button class="main-btn icon-btn"><i class="fa fa-searchplus"></i></button>
+       <a href="{{ route('produk.detail', $row->id) }}" title="Detail Produk">
+        <button class="main-btn icon-btn"><i class="fa fa-search-plus"></i></button>
        </a>
        <form action="3" method="post" style="display: inline-block;" title="Pesan Ke Aplikasi">
         @csrf
@@ -42,6 +42,9 @@ Produk">
  </div>
  <!-- /row -->
  </div>
+    @else
+    <h1 class="primary-color">Maaf, Produk dalam kategori ini belum tersedia.</h1>
+   @endif
  <!-- /STORE -->
  <!-- end template-->
 @endsection

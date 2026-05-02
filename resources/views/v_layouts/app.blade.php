@@ -75,7 +75,7 @@
     <ul class="header-btns">
      <!-- Cart -->
      <li class="header-cart dropdown default-dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+      <a class="dropdown-toggle" href="{{ route('order.cart') }}">
        <div class="header-btns-icon">
         <i class="fa fa-shopping-cart"></i>
        </div>
@@ -297,7 +297,6 @@
 
     </div>
     <!-- /ASIDE -->
-
     <!-- MAIN -->
     <div id="main" class="col-md-9">
      <!-- store top filter -->

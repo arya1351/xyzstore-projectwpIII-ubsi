@@ -543,7 +543,6 @@ dengan Tanggal Awal.',
         return view('backend.v_pesanan.invoice', [
             'judul' => 'Pesanan',
             'subJudul' => 'Pesanan Proses',
-            'judul' => 'Data Transaksi',
             'order' => $order,
         ]);
     }
@@ -554,7 +553,6 @@ dengan Tanggal Awal.',
         return view('backend.v_pesanan.invoice', [
             'judul' => 'Pesanan',
             'subJudul' => 'Pesanan Proses',
-            'judul' => 'Data Transaksi',
             'order' => $order,
         ]);
     }

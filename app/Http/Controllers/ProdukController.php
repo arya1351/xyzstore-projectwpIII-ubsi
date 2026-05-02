@@ -46,12 +46,12 @@ class ProdukController extends Controller
                 'harga' => 'required',
                 'berat' => 'required',
                 'stok' => 'required',
-                'foto' => 'required|image|mimes:jpeg,jpg,png,gif|file|max:1024',
+                'foto' => 'required|image|mimes:jpeg,jpg,png,gif|file|max:2000',
             ],
             [
                 'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png,
     atau gif.',
-                'foto.max' => 'Ukuran file gambar Maksimal adalah 1024 KB.',
+                'foto.max' => 'Ukuran file gambar Maksimal adalah 2000 KB.',
             ],
         );
         $validatedData['status'] = 0;
@@ -128,12 +128,12 @@ class ProdukController extends Controller
             'harga' => 'required',
             'berat' => 'required',
             'stok' => 'required',
-            'foto' => 'image|mimes:jpeg,jpg,png,gif|file|max:1024',
+            'foto' => 'image|mimes:jpeg,jpg,png,gif|file|max:2000',
         ];
         $messages = [
             'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png,
 atau gif.',
-            'foto.max' => 'Ukuran file gambar Maksimal adalah 1024 KB.',
+            'foto.max' => 'Ukuran file gambar Maksimal adalah 2000 KB.',
         ];
         $validatedData['user_id'] = auth()->id();
         $validatedData = $request->validate($rules, $messages);
@@ -241,7 +241,7 @@ atau gif.',
         // Validasi input
         $request->validate([
             'produk_id' => 'required|exists:produk,id',
-            'foto_produk.*' => 'image|mimes:jpeg,jpg,png,gif|file|max:1024',
+            'foto_produk.*' => 'image|mimes:jpeg,jpg,png,gif|file|max:2000',
         ]);
         if ($request->hasFile('foto_produk')) {
             foreach ($request->file('foto_produk') as $file) {
