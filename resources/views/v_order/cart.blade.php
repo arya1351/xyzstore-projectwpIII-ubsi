@@ -134,7 +134,7 @@
 
 </div>
    @else
-    <p>Keranjang belanja kosong.</p>
+    <h4 class="text-uppercase text-center">Keranjang belanja kosong.</h4>
    @endif
   </div>
  </div>

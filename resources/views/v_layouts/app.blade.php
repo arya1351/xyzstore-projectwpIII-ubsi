@@ -174,8 +174,8 @@
      <ul class="menu-list">
       <li><a href="{{ route('beranda') }}">Beranda</a></li>
       <li><a href="{{ route('produk.all') }}">Produk</a></li>
-      <li><a href="#">Lokasi</a></li>
-      <li><a href="#">Hubungi Kami</a></li>
+      <li><a href="{{ route('location') }}">Lokasi</a></li>
+      <li><a href="https://wa.me/6282114943996">Hubungi Kami</a></li>
      </ul>
     </div>
     <!-- menu nav -->
@@ -206,7 +206,7 @@
        </div>
       </div>
       <!-- /banner -->
-      <!-- banner -->
+      {{-- <!-- banner -->
       <div class="banner banner-1">
        <img src="{{ asset('frontend/img/banner02.jpg') }}" alt="">
        <div class="banner-caption">
@@ -224,7 +224,7 @@
         <button class="primary-btn">Pesan Sekarang</button>
        </div>
       </div>
-      <!-- /banner -->
+      <!-- /banner --> --}}
      </div>
      <!-- /home slick -->
     </div>

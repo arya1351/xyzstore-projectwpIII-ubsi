@@ -21,4 +21,9 @@ class BerandaController extends Controller
             'produk' => $produk,
         ]);
     }
+
+    public function location(){
+        return view('v_beranda.lokasi');
+    }
+
 }
