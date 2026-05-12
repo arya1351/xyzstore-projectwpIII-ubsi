@@ -37,7 +37,7 @@
    {{-- KURIR --}}
    <div class="form-group">
     <label>Kurir</label>
-    <select id="courier" class="form-control">
+    <select id="courier" class="form-control" name="kurir">
      <option value="jne">JNE</option>
      <option value="tiki">TIKI</option>
      <option value="pos">POS</option>

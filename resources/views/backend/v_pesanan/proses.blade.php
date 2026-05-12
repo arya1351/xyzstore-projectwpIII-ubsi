@@ -24,7 +24,7 @@
          <td> {{ $loop->iteration }}</td>
          <td> {{ $row->id }} </td>
          <td>{{ $row->created_at->format('d M Y H:i') }}</td>
-         <td>Rp. {{ number_format($row->total_harga + $row->biaya_ongkir, 0, ',', '.') }}</td>
+         <td>Rp. {{ number_format($row->total_harga , 0, ',', '.') }}</td>
          <td>
 
           @if ($row->status == 'Paid')
