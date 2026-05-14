@@ -35,7 +35,7 @@
        <div class="form-group">
         <label>Foto</label>
         {{-- view image --}}
-        @if ($edit->foto)
+        @if ($edit->user->foto)
          <img src="{{ asset('storage/img-customer/' . $edit->user->foto) }}" class="foto-preview" width="100%">
          <p></p>
         @else

@@ -39,7 +39,7 @@
         </td>
 
         <td>
-         Rp. {{ number_format($order->total_harga, 0, ',', '.') }}
+         Rp. {{ number_format($order->total_harga * $order->quantity, 0, ',', '.') }}
         </td>
 
         <td>
@@ -49,22 +49,15 @@
         </td>
 
         <td>
-         {{-- <a href="{{ route('order.detail', $order->id) }}" 
-                                   class="btn btn-danger btn-sm">
-                                    LIHAT DETAIL
-                                </a> --}}
-
-                                {{-- <a href="{{ route('order.invoice', $order->id) }}" 
-                                   class="btn btn-default btn-sm">
-                                    INVOICE
-                                </a>
-                                 --}}
+      
 
          @if ($order->status == 'pending_payment')
           <form action="{{ route('selectpayment', $order->id) }}" method="POST">
            @csrf
             <button type="submit" class="primary-btn">Bayar Sekarang</button>
           </form>
+          @elseif ($order->status == 'pending')
+              <a class="btn btn-default" href="{{ route('order.cart') }}">Keranjang</a>
          @else
           <a href="#" class="btn btn-default btn-sm">
            INVOICE

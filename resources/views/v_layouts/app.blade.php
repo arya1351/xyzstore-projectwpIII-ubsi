@@ -202,7 +202,7 @@
     Lagi cari <br> pakaian kece?
 </h2>
         <h3 class="font-weak" style="color: 30323a;">XYZ Store solusinya</h3>
-        <button class="primary-btn">Pesan Sekarang</button>
+        <a href="{{ route('produk.all') }}" class="primary-btn">Pesan Sekarang</a>
        </div>
       </div>
       <!-- /banner -->
@@ -244,44 +244,22 @@
     <div id="aside" class="col-md-3">
      <!-- aside widget -->
      <div class="aside">
-      <h3 class="aside-title">Top Rated Product</h3>
+      <h3 class="aside-title">Produk Terbaru</h3>
       <!-- widget product -->
+         @foreach ($newestproduct as $row)
       <div class="product product-widget">
        <div class="product-thumb">
-        <img src="{{ asset('frontend/img/thumb-product01.jpg') }}" alt="">
+        <img src="{{ asset('storage/img-produk/thumb_md_' . $row->foto) }}" alt="">
        </div>
        <div class="product-body">
-        <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-        <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
-        <div class="product-rating">
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star-o empty"></i>
-        </div>
+        <h2 class="product-name"><a href="{{ route('produk.detail', $row->id) }}">{{ $row->nama_produk }}</a></h2>
+        <h3 class="product-price">Rp. {{ number_format($row->harga, 0, ',', '.') }}</h3>
+        
        </div>
       </div>
+      @endforeach
       <!-- /widget product -->
 
-      <!-- widget product -->
-      <div class="product product-widget">
-       <div class="product-thumb">
-        <img src="{{ asset('frontend/img/thumb-product01.jpg') }}" alt="">
-       </div>
-       <div class="product-body">
-        <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-        <h3 class="product-price">$32.50</h3>
-        <div class="product-rating">
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star"></i>
-         <i class="fa fa-star-o empty"></i>
-        </div>
-       </div>
-      </div>
-      <!-- /widget product -->
      </div>
      <!-- /aside widget -->
      <!-- aside widget -->
@@ -350,21 +328,33 @@
      </div>
     </div>
     <!-- /footer widget -->
-
+            @if (Auth::check())
     <!-- footer widget -->
     <div class="col-md-3 col-sm-6 col-xs-6">
      <div class="footer">
       <h3 class="footer-header">My Account</h3>
       <ul class="list-links">
-       <li><a href="#">My Account</a></li>
-       <li><a href="#">My Wishlist</a></li>
-       <li><a href="#">Compare</a></li>
-       <li><a href="#">Checkout</a></li>
-       <li><a href="#">Login</a></li>
+       <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}">My Account</a></li>
+       <li><a href="{{ route('order.cart') }}">Keranjang Saya</a></li>
+       <li><a href="{{ route('auth.redirect') }}">Login</a></li>
       </ul>
      </div>
     </div>
     <!-- /footer widget -->
+    @else
+     <!-- footer widget -->
+    <div class="col-md-3 col-sm-6 col-xs-6">
+     <div class="footer">
+      <h3 class="footer-header">My Account</h3>
+      <ul class="list-links">
+       <li><a href="">My Account</a></li>
+       <li><a href="">Keranjang Saya</a></li>
+       <li><a href="">Login</a></li>
+      </ul>
+     </div>
+    </div>
+    <!-- /footer widget -->
+    @endif
 
     <div class="clearfix visible-sm visible-xs"></div>
 

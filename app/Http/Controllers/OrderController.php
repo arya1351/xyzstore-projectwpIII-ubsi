@@ -115,7 +115,7 @@ ditambahkan ke keranjang',
         $statuses = ['Paid', 'Kirim', 'Selesai'];
 
         // $orders = Order::where('customer_id', $customer->id)->whereIn('status', $statuses)->orderBy('id', 'desc')->get();
-        $orders = Order::where('customer_id', $customer->id)->get();
+        $orders = Order::with('orderItems')->where('customer_id', $customer->id)->orderBy('id','desc')->get();
         return view('v_order.history', compact('orders'));
     }
 
@@ -138,11 +138,7 @@ ditambahkan ke keranjang',
                 }
             }
         }
-        return redirect()->route('order.cart')->with(
-            'success',
-            'Produk berhasil dihapus
-dari keranjang',
-        );
+        return redirect()->route('order.cart')->with('success', 'Produk berhasil dihapus dari keranjang');
     }
 
     public function updateongkir(Request $request)
@@ -159,11 +155,10 @@ dari keranjang',
             $order->total_berat = $request->input('total_berat');
             $order->alamat = $request->input('alamat') . ', <br>' . $request->input('city_name') . ', <br>' . $request->input('province_name');
             $order->pos = $request->input('pos');
+            $order->status = 'pending_payment';
             $order->save();
             return redirect()->route('order.selectpayment');
         }
-            $order->status = 'pending_payment';
-            $order->save();
 
         return back()->with('error', 'Gagal menyimpan data ongkir');
     }
@@ -197,8 +192,6 @@ dari keranjang',
         if ($response->successful()) {
             $provinces = $response->json()['data'] ?? [];
         }
-
-        
 
         return view('v_order.select_shipping', compact('order', 'totalWeight', 'provinces'));
     }
@@ -291,10 +284,10 @@ dari keranjang',
 
         // ✅ hitung ulang total (hapus lama, tambah baru)
         $order->total_harga = $order->total_harga - $oldOngkir + $request->cost;
-
+        $order->status = 'pending_payment';
         $order->save();
 
-        return redirect()->route('order.cart')->with('success', 'Pengiriman berhasil dipilih');
+        return redirect()->route('order.history')->with('success','Order dengan id #' . $order->id . ' telah berhasil dibuat');
     }
 
     public function statusProses()
@@ -320,7 +313,6 @@ dari keranjang',
         return view('backend.v_pesanan.selesai', [
             'judul' => 'Pesanan',
             'subJudul' => 'Pesanan Proses',
-            'judul' => 'Data Transaksi',
             'index' => $order,
         ]);
     }

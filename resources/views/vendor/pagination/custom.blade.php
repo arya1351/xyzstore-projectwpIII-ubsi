@@ -1,3 +1,40 @@
+<style>
+    .pagination li a,
+.pagination li span {
+    color: #000000;
+    background-color: #b8b5b6;
+    border: 1px solid #f0f0f0;
+    padding: 8px 14px;
+    margin: 0 3px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.pagination li.active span {
+    background-color: #15161D;
+    border-color: #15161D;
+    color: #FFF;
+}
+
+.pagination li.active span,
+.pagination li.active span:hover {
+    background-color: #15161D !important;
+    border-color: #15161D !important;
+    color: #FFF !important;
+}
+
+.pagination li a:hover {
+    background-color: #15161D;
+    border-color: #15161D;
+    color: #FFF;
+}
+
+.pagination li.disabled span {
+    background-color: #ccc;
+    border-color: #ccc;
+    color: #666;
+}
+</style>
 @if ($paginator->hasPages())
  <ul class="pagination">
   {{-- Previous Page Link --}}
