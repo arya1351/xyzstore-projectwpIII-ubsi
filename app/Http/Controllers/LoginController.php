@@ -24,7 +24,7 @@ return back()->with('error', 'User belum aktif');
 $request->session()->regenerate();
 return redirect()->intended(route('backend.beranda'));
 }
-return back()->with('error', 'Login Gagal');
+return back()->with('error', 'Login Gagal, Email atau Password Salah');
 }
 public function logoutBackend()
 {

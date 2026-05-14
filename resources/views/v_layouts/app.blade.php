@@ -15,7 +15,6 @@
  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-@vite(['resources/css/app.css', 'resources/js/app.js'])
 
  <!-- Bootstrap -->
  <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
@@ -332,9 +331,9 @@
     <!-- footer widget -->
     <div class="col-md-3 col-sm-6 col-xs-6">
      <div class="footer">
-      <h3 class="footer-header">My Account</h3>
+      <h3 class="footer-header">Akun Saya</h3>
       <ul class="list-links">
-       <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}">My Account</a></li>
+       <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}">Detail Akun</a></li>
        <li><a href="{{ route('order.cart') }}">Keranjang Saya</a></li>
        <li><a href="{{ route('auth.redirect') }}">Login</a></li>
       </ul>

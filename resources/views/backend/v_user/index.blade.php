@@ -37,6 +37,9 @@
                                             @elseif($row->role == 0)
                                                 <span class="badge badge-primary"></i>
                                                     Admin</span>
+                                                    @else
+                                                                                                    <span class="badge badge-info"></i>
+                                                    Customer</span>
                                             @endif
                                         </td>
                                         <td>
