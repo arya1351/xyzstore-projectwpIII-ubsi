@@ -13,8 +13,10 @@
  <!-- Google font -->
  <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link
+  href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+  rel="stylesheet">
 
  <!-- Bootstrap -->
  <link type="text/css" rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
@@ -42,18 +44,81 @@
 </head>
 
 <body>
- {{-- <!-- HEADER -->
- <header>
-  <!-- top Header -->
-  <div id="top-header">
-   <div class="container">
-    <div class="pull-left">
-     <span>Selamat datang di toko online</span>
-    </div>
-   </div>
-  </div>
-  <!-- /top Header --> --}}
+ @if (session()->has('error'))
+  <div id="floatingAlert" class="floating-alert alert alert-danger alert-dismissible fade in" role="alert">
+   <button type="button" class="close" data-dismiss="alert">
+    <span>&times;</span>
+   </button>
 
+   <strong>{{ session('error') }}</strong>
+  </div>
+ @endif
+
+ <style>
+  .floating-alert {
+   position: fixed;
+   right: 20px;
+   z-index: 99999;
+   margin-top: 2%;
+   width: 350px;
+   padding: 15px 45px 15px 15px;
+
+   border-radius: 12px;
+   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+
+   animation: slideIn 0.4s ease;
+  }
+
+  .floating-alert .close {
+   position: absolute;
+   top: 50%;
+   right: 15px;
+   transform: translateY(-50%);
+   font-size: 22px;
+  }
+
+  @keyframes slideIn {
+   from {
+    opacity: 0;
+    transform: translateX(100%);
+   }
+
+   to {
+    opacity: 1;
+    transform: translateX(0);
+   }
+  }
+
+  @keyframes fadeOut {
+   from {
+    opacity: 1;
+    transform: translateX(0);
+   }
+
+   to {
+    opacity: 0;
+    transform: translateX(100%);
+   }
+  }
+
+  .hide-alert {
+   animation: fadeOut 0.5s ease forwards;
+  }
+ </style>
+
+ <script>
+  setTimeout(function() {
+   let alertBox = document.getElementById('floatingAlert');
+
+   if (alertBox) {
+    alertBox.classList.add('hide-alert');
+
+    setTimeout(function() {
+     alertBox.remove();
+    }, 500);
+   }
+  }, 4000); // 3 detik
+ </script>
  <!-- header -->
  <div id="header">
   <div class="container">
@@ -94,7 +159,8 @@
         <strong class="text-uppercase">{{ Auth::user()->nama }}<i class="fa fa-caret-down"></i></strong>
        </div>
        <ul class="custom-menu">
-        <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}"><i class="fa fa-user-o"></i> Akun Saya</a>
+        <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}"><i class="fa fa-user-o"></i> Akun
+          Saya</a>
         </li>
         <li><a href="{{ route('order.history') }}"><i class="fa fa-check"></i> History</a></li>
         <li>
@@ -197,9 +263,9 @@
       <div class="banner banner-1">
        <img src="{{ asset('frontend/img/banner01.png') }}" alt="">
        <div class="banner-caption text-center">
-<h2 style="font-family: 'Black Ops One', system-ui;">
-    Lagi cari <br> pakaian kece?
-</h2>
+        <h2 style="font-family: 'Black Ops One', system-ui;">
+         Lagi cari <br> pakaian kece?
+        </h2>
         <h3 class="font-weak" style="color: 30323a;">XYZ Store solusinya</h3>
         <a href="{{ route('produk.all') }}" class="primary-btn">Pesan Sekarang</a>
        </div>
@@ -245,17 +311,17 @@
      <div class="aside">
       <h3 class="aside-title">Produk Terbaru</h3>
       <!-- widget product -->
-         @foreach ($newestproduct as $row)
-      <div class="product product-widget">
-       <div class="product-thumb">
-        <img src="{{ asset('storage/img-produk/thumb_md_' . $row->foto) }}" alt="">
+      @foreach ($newestproduct as $row)
+       <div class="product product-widget">
+        <div class="product-thumb">
+         <img src="{{ asset('storage/img-produk/thumb_md_' . $row->foto) }}" alt="">
+        </div>
+        <div class="product-body">
+         <h2 class="product-name"><a href="{{ route('produk.detail', $row->id) }}">{{ $row->nama_produk }}</a></h2>
+         <h3 class="product-price">Rp. {{ number_format($row->harga, 0, ',', '.') }}</h3>
+
+        </div>
        </div>
-       <div class="product-body">
-        <h2 class="product-name"><a href="{{ route('produk.detail', $row->id) }}">{{ $row->nama_produk }}</a></h2>
-        <h3 class="product-price">Rp. {{ number_format($row->harga, 0, ',', '.') }}</h3>
-        
-       </div>
-      </div>
       @endforeach
       <!-- /widget product -->
 
@@ -290,6 +356,7 @@
     <!-- /MAIN -->
    </div>
    <!-- /row -->
+
   </div>
   <!-- /container -->
  </div>
@@ -327,32 +394,32 @@
      </div>
     </div>
     <!-- /footer widget -->
-            @if (Auth::check())
-    <!-- footer widget -->
-    <div class="col-md-3 col-sm-6 col-xs-6">
-     <div class="footer">
-      <h3 class="footer-header">Akun Saya</h3>
-      <ul class="list-links">
-       <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}">Detail Akun</a></li>
-       <li><a href="{{ route('order.cart') }}">Keranjang Saya</a></li>
-       <li><a href="{{ route('auth.redirect') }}">Login</a></li>
-      </ul>
+    @if (Auth::check())
+     <!-- footer widget -->
+     <div class="col-md-3 col-sm-6 col-xs-6">
+      <div class="footer">
+       <h3 class="footer-header">Akun Saya</h3>
+       <ul class="list-links">
+        <li><a href="{{ route('customer.akun', ['id' => Auth::user()->id]) }}">Detail Akun</a></li>
+        <li><a href="{{ route('order.cart') }}">Keranjang Saya</a></li>
+        <li><a href="{{ route('auth.redirect') }}">Login</a></li>
+       </ul>
+      </div>
      </div>
-    </div>
-    <!-- /footer widget -->
+     <!-- /footer widget -->
     @else
      <!-- footer widget -->
-    <div class="col-md-3 col-sm-6 col-xs-6">
-     <div class="footer">
-      <h3 class="footer-header">My Account</h3>
-      <ul class="list-links">
-       <li><a href="">My Account</a></li>
-       <li><a href="">Keranjang Saya</a></li>
-       <li><a href="">Login</a></li>
-      </ul>
+     <div class="col-md-3 col-sm-6 col-xs-6">
+      <div class="footer">
+       <h3 class="footer-header">My Account</h3>
+       <ul class="list-links">
+        <li><a href="">My Account</a></li>
+        <li><a href="">Keranjang Saya</a></li>
+        <li><a href="">Login</a></li>
+       </ul>
+      </div>
      </div>
-    </div>
-    <!-- /footer widget -->
+     <!-- /footer widget -->
     @endif
 
     <div class="clearfix visible-sm visible-xs"></div>

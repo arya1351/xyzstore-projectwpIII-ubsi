@@ -39,7 +39,7 @@
         </td>
 
         <td>
-         Rp. {{ number_format($order->total_harga * $order->quantity, 0, ',', '.') }}
+         Rp. {{ number_format($order->total_harga, 0, ',', '.') }}
         </td>
 
         <td>

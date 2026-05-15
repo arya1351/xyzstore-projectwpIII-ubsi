@@ -26,6 +26,7 @@
    @endif
    <!-- end msgError -->
    @if ($order && $order->orderItems->count() > 0)
+   <d class="table-responsive">
     <table class="shopping-cart-table table">
      <thead>
       <tr>
@@ -64,7 +65,7 @@
          <form action="{{ route('order.updateCart', $item->id) }}" method="post">
           @csrf
           <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" style="width: 60px;">
-          <button type="submit" class="btn btn-sm btn-warning">Update</button>
+          <button type="submit" class="btn btn-sm btn-primary">Update</button>
          </form>
         </td>
         <td class="total text-center"><strong class="primary-color">Rp.
@@ -102,7 +103,7 @@
 
      </tfoot>
     </table>
-
+  </div>
 
    <div class="pull-right">
 

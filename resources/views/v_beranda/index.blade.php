@@ -1,5 +1,25 @@
 @extends('v_layouts.app')
 @section('content')
+@if (session()->has('error'))
+    <div class="alert alert-danger alert-dismissible fade show floating-alert" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        <strong>{{ session('error') }}</strong>
+    </div>
+@endif
+<style>
+    .floating-alert{
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        min-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        border-radius: 10px;
+    }
+</style>
  <!-- template -->
  <!-- STORE -->
  <div id="store">

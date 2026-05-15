@@ -18,6 +18,9 @@ class OrderController extends Controller
     public function viewCart()
     {
         $customer = Customer::where('user_id', Auth::id())->first();
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Hanya customer yang dapat mengakses keranjang.');
+        }
         $order = Order::where('customer_id', $customer->id)->where('status', 'pending')->first();
         if ($order) {
             $order->load('orderItems.produk');
@@ -115,7 +118,7 @@ ditambahkan ke keranjang',
         $statuses = ['Paid', 'Kirim', 'Selesai'];
 
         // $orders = Order::where('customer_id', $customer->id)->whereIn('status', $statuses)->orderBy('id', 'desc')->get();
-        $orders = Order::with('orderItems')->where('customer_id', $customer->id)->orderBy('id','desc')->get();
+        $orders = Order::with('orderItems')->where('customer_id', $customer->id)->orderBy('id', 'desc')->get();
         return view('v_order.history', compact('orders'));
     }
 
@@ -287,7 +290,9 @@ ditambahkan ke keranjang',
         $order->status = 'pending_payment';
         $order->save();
 
-        return redirect()->route('order.history')->with('success','Order dengan id #' . $order->id . ' telah berhasil dibuat');
+        return redirect()
+            ->route('order.history')
+            ->with('success', 'Order dengan id #' . $order->id . ' telah berhasil dibuat');
     }
 
     public function statusProses()
