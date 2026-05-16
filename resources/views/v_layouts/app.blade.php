@@ -62,10 +62,8 @@
    margin-top: 2%;
    width: 350px;
    padding: 15px 45px 15px 15px;
-
    border-radius: 12px;
    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-
    animation: slideIn 0.4s ease;
   }
 
@@ -263,13 +261,14 @@
       <div class="banner banner-1">
        <img src="{{ asset('frontend/img/banner01.png') }}" alt="">
        <div class="banner-caption text-center">
-        <h2 style="font-family: 'Black Ops One', system-ui;">
+        <h2 class="banner-title">
          Lagi cari <br> pakaian kece?
         </h2>
-        <h3 class="font-weak" style="color: 30323a;">XYZ Store solusinya</h3>
-        <a href="{{ route('produk.all') }}" class="primary-btn">Pesan Sekarang</a>
+        <h3 class="font-weak banner-subtitle" style="color: 30323a;">XYZ Store solusinya</h3>
+        <a href="{{ route('produk.all') }}" class="primary-btn banner-btn">Pesan Sekarang</a>
        </div>
       </div>
+
       <!-- /banner -->
       {{-- <!-- banner -->
       <div class="banner banner-1">
@@ -299,6 +298,62 @@
   </div>
   <!-- /HOME -->
  @endif
+ <style>
+  .banner-title {
+   font-family: 'Black Ops One', system-ui;
+   font-size: clamp(20px, 4vw, 42px);
+   line-height: 1.2;
+   color: #010101;
+   margin-bottom: 10px;
+  }
+
+  .banner-subtitle {
+   color: #30323a;
+   font-size: clamp(12px, 2vw, 24px);
+  }
+
+     .banner-btn {
+        border-radius: 6px;
+   }
+
+  @media (max-width: 768px) {
+   .banner-caption {
+    padding: 15px;
+   }
+
+   .banner-title {
+    line-height: 1.2;
+   }
+
+   .banner-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+        border-radius: 6px;
+   }
+  }
+
+  @media (max-width: 480px) {
+   .banner-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+    border-radius: 6px;
+   }
+
+   
+   .banner-title {
+    line-height: 1.2;
+       font-size: clamp(16px, 3vw, 36px);
+   }
+  }
+   
+  @media (max-width: 100px) {
+   .banner-btn {
+    padding: 6px 12px;
+    font-size: 8px;
+    border-radius: 6px;
+   }
+  }
+ </style>
  <!-- section -->
  <div class="section">
   <!-- container -->
@@ -427,12 +482,12 @@
     <!-- footer widget -->
     <div class="col-md-3 col-sm-6 col-xs-6">
      <div class="footer">
-      <h3 class="footer-header">Customer Service</h3>
+      <h3 class="footer-header">Link</h3>
       <ul class="list-links">
+       <li><a href="#">Beranda</a></li>
+       <li><a href="#">Produk</a></li>
        <li><a href="#">About Us</a></li>
-       <li><a href="#">Shiping & Return</a></li>
-       <li><a href="#">Shiping Guide</a></li>
-       <li><a href="#">FAQ</a></li>
+       <li><a href="#">Lokasi</a></li>
       </ul>
      </div>
     </div>
@@ -465,7 +520,7 @@
       <script>
        document.write(new Date().getFullYear());
       </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
-       aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+       style="color: #a30669;" aria-hidden="true"></i>
       <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
      </div>
      <!-- /footer copyright -->

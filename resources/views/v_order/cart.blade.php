@@ -26,7 +26,7 @@
    @endif
    <!-- end msgError -->
    @if ($order && $order->orderItems->count() > 0)
-   <d class="table-responsive">
+   <div class="table-responsive">
     <table class="shopping-cart-table table">
      <thead>
       <tr>
