@@ -7,6 +7,8 @@
     <h3 class="title">PILIH PENGIRIMAN</h3>
    </div>
 
+
+
    {{-- PROVINSI --}}
    <div class="form-group">
     <label>Provinsi</label>
@@ -32,6 +34,14 @@
     <select name="district_id" id="district" class="form-control">
      <option value="">-- Pilih Kecamatan --</option>
     </select>
+   </div>
+
+   {{-- ALAMAT --}}
+   <div class="form-group">
+    <label>Alamat Lengkap</label>
+
+    <textarea name="alamat" id="alamat" class="form-control" rows="4"
+     placeholder="Masukkan alamat lengkap, ciri rumah">{{ old('alamat', $customer->alamat ?? '') }}</textarea>
    </div>
 
    {{-- KURIR --}}
@@ -115,7 +125,7 @@
     let weight = {{ $totalWeight }};
 
     if (!district_id || !courier) {
-     alert('Lengkapi data dulu');
+     showAlert('Lengkapi data terlebih dahulu');
      return;
     }
 
@@ -152,6 +162,7 @@
             <input type="hidden" name="cost" value="${val.cost}">
             <input type="hidden" name="etd" value="${val.etd}">
             <input type="hidden" name="weight" value="{{ $totalWeight }}">
+<input type="hidden" name="alamat" value="${$('#alamat').val().replace(/"/g, '&quot;')}">
             <button class="btn btn-danger">PILIH</button>
         </form>
     </td>
@@ -167,5 +178,78 @@
    });
 
   });
+ </script>
+
+ <div id="customAlert" class="custom-alert">
+  <div class="custom-alert-content">
+   <h4>Oops!</h4>
+   <p id="alertMessage"></p>
+
+   <button onclick="closeAlert()" class="btn btn-danger">
+    OK
+   </button>
+  </div>
+ </div>
+
+ <style>
+  .custom-alert {
+   display: none;
+   position: fixed;
+   z-index: 99999;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+
+   background: rgba(0, 0, 0, 0.5);
+
+   justify-content: center;
+   align-items: center;
+  }
+
+  .custom-alert-content {
+   background: #fff;
+   width: 90%;
+   max-width: 350px;
+
+   padding: 25px;
+   border-radius: 15px;
+
+   text-align: center;
+
+   animation: popup .3s ease;
+  }
+
+  .custom-alert-content h4 {
+   margin-bottom: 10px;
+   color: #dc3545;
+  }
+
+  .custom-alert-content p {
+   margin-bottom: 20px;
+  }
+
+  @keyframes popup {
+   from {
+    transform: scale(0.8);
+    opacity: 0;
+   }
+
+   to {
+    transform: scale(1);
+    opacity: 1;
+   }
+  }
+ </style>
+
+ <script>
+  function showAlert(message) {
+   document.getElementById('alertMessage').innerText = message;
+   document.getElementById('customAlert').style.display = 'flex';
+  }
+
+  function closeAlert() {
+   document.getElementById('customAlert').style.display = 'none';
+  }
  </script>
 @endsection

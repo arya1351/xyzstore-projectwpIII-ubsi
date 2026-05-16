@@ -1,6 +1,12 @@
 @extends('v_layouts.app')
 @section('content')
-
+<style>
+.order-btn{
+    width: 180px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+</style>
  <div class="col-md-12">
   <div class="order-summary clearfix">
 
@@ -43,9 +49,15 @@
         </td>
 
         <td>
-         <span class="label label-warning">
-          {{ $order->status }}
-         </span>
+          @if ($order->status =='pending_payment')
+             <span class="label label-primary">
+              Menunggu Pembayaran
+            </span>
+            @elseif ($order->status =='paid')
+                         <span class="label label-success">
+              Pembayaran Selesai
+            </span>
+          @endif
         </td>
 
         <td>
@@ -54,14 +66,20 @@
          @if ($order->status == 'pending_payment')
           <form action="{{ route('selectpayment', $order->id) }}" method="POST">
            @csrf
-            <button type="submit" class="primary-btn">Bayar Sekarang</button>
+            <button type="submit" class="btn primary-btn order-btn">Bayar Sekarang</button>
           </form>
           @elseif ($order->status == 'pending')
               <a class="btn btn-default" href="{{ route('order.cart') }}">Keranjang</a>
          @else
-          <a href="#" class="btn btn-default btn-sm">
-           INVOICE
-          </a>
+<a href="{{ route('invoice', $order->id )}}" class="btn primary-btn order-btn">
+    INVOICE
+</a>
+
+<a href="" class="btn primary-btn order-btn">
+    Detail Order
+</a>
+
+
          @endif
         </td>
        </tr>

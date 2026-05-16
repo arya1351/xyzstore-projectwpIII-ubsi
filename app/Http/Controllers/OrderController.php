@@ -196,7 +196,7 @@ ditambahkan ke keranjang',
             $provinces = $response->json()['data'] ?? [];
         }
 
-        return view('v_order.select_shipping', compact('order', 'totalWeight', 'provinces'));
+        return view('v_order.select_shipping', compact('order', 'totalWeight', 'provinces', 'customer'));
     }
 
     public function getProvinces()
@@ -272,7 +272,9 @@ ditambahkan ke keranjang',
     public function chooseShipping(Request $request)
     {
         $customer = Customer::where('user_id', Auth::id())->first();
-
+        // simpan alamat
+        $customer->alamat = $request->alamat;
+        $customer->save();
         $order = Order::where('customer_id', $customer->id)->where('status', 'pending')->first();
 
         // ✅ simpan ongkir lama dulu
@@ -543,5 +545,12 @@ dengan Tanggal Awal.',
             'subJudul' => 'Pesanan Proses',
             'order' => $order,
         ]);
+    }
+
+    public function invoice($id)
+    {
+        $order = Order::with('orderItems', 'customer.user')->findOrFail($id);
+
+        return view('v_order.invoice', compact('order'));
     }
 }

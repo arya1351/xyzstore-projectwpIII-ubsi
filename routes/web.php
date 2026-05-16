@@ -115,6 +115,7 @@ Route::middleware('is.customer')->group(function () {
     Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
     Route::post('/checkout/payment/{orderId}', [OrderController::class, 'selectpayment'])->name('selectpayment');
     Route::get('/history', [OrderController::class, 'orderHistory'])->name('order.history');
+    Route::get('/invoice/{Id}',[OrderController::class, 'invoice'])->name('invoice');
 });
 
 Route::get('/list-ongkir', function () {
